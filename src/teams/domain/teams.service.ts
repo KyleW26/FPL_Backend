@@ -43,4 +43,9 @@ export class TeamsService {
   async createTeam(dto: CreateTeamDto) {
     return await this._teamsRepository.createTeam(dto);
   }
+
+  // Function to delete a team from the Teams table
+  async deleteTeam(id: number) {
+    return await this._teamsRepository.deleteTeam(id);
+  }
 }

@@ -84,4 +84,23 @@ export class TeamsRepository {
       throw error;
     }
   }
+
+  /**
+   * @description: Function to delete a team from the teams table
+   * @param: id
+   * @returns
+   */
+  async deleteTeam(teamId: number) {
+    try {
+      await this._prismaClient.teams.delete({
+        where: {
+          id: teamId,
+        },
+      });
+
+      return 'Item ' + teamId + ' Successfully Deleted';
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -55,5 +56,14 @@ export class TeamsController {
     @Body() body: EditTeamDto,
   ) {
     return await this.teamsService.editTeam(id, body);
+  }
+
+  /**
+   * @description: Function to delete an existing team
+   * @param: id
+   */
+  @Delete('/:id')
+  async deleteTeam(@Param('id', ParseIntPipe) id: number) {
+    return await this.teamsService.deleteTeam(id);
   }
 }
