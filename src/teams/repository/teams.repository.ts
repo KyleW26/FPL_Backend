@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { EditTeamDto } from 'src/lib/dto';
+import { CreateTeamDto, EditTeamDto } from 'src/lib/dto';
 
 @Injectable()
 export class TeamsRepository {
@@ -53,10 +53,33 @@ export class TeamsRepository {
       });
 
       if (!updatedTeam) {
-        throw new BadRequestException('Unable to update specified user');
+        throw new BadRequestException('Unable to update specified team');
       }
 
       return updatedTeam;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * @description: Function to create a team in the teams table
+   * @param: dto
+   * @returns: newTeam
+   */
+  async createTeam(dto: CreateTeamDto) {
+    try {
+      const newTeam = await this._prismaClient.teams.create({
+        data: {
+          ...dto,
+        },
+      });
+
+      if (!newTeam) {
+        throw new BadRequestException('Failed to create new team');
+      }
+
+      return newTeam;
     } catch (error) {
       throw error;
     }

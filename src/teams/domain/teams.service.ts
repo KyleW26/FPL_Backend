@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TeamsRepository } from '../repository/teams.repository';
-import { EditTeamDto } from 'src/lib/dto';
+import { CreateTeamDto, EditTeamDto } from 'src/lib/dto';
 
 @Injectable()
 export class TeamsService {
@@ -17,6 +17,17 @@ export class TeamsService {
     return teams;
   }
 
+  // Function to get a single team from within the Teams table
+  async getSingleTeam(id: number) {
+    const team = await this._teamsRepository.getTeam(id);
+
+    if (!team) {
+      throw new BadRequestException('Unable to find a team');
+    }
+
+    return team;
+  }
+
   // Function to edit a team in the teams table
   async editTeam(id: number, dto: EditTeamDto) {
     const teamToEdit = await this._teamsRepository.getTeam(id);
@@ -26,5 +37,10 @@ export class TeamsService {
     }
 
     return this._teamsRepository.editTeam(id, dto);
+  }
+
+  // Function to create a team in the teams table
+  async createTeam(dto: CreateTeamDto) {
+    return await this._teamsRepository.createTeam(dto);
   }
 }

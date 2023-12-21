@@ -5,19 +5,50 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
 } from '@nestjs/common';
 import { TeamsService } from '../domain/teams.service';
-import { EditTeamDto } from 'src/lib/dto';
+import { CreateTeamDto, EditTeamDto } from 'src/lib/dto';
 
 @Controller('/api/teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
+  /**
+   * @description: Function to retrieve all teams
+   * @param
+   * @returns
+   */
   @Get('getAll')
   async getAllTeams() {
     return await this.teamsService.getAllTeams();
   }
 
+  /**
+   * @description: Function to retrieve a single team
+   * @param: id
+   * @returns
+   */
+  @Get('getOne/:id')
+  async getSingleTeam(@Param('id', ParseIntPipe) id: number) {
+    return await this.teamsService.getSingleTeam(id);
+  }
+
+  /**
+   * @description: Function to create a new team
+   * @param: body
+   * @returns
+   */
+  @Post('/create')
+  async createTeam(@Body() body: CreateTeamDto) {
+    return await this.teamsService.createTeam(body);
+  }
+
+  /**
+   * @description: Function to edit an existing team
+   * @param: id, body
+   * @returns
+   */
   @Patch('edit/:id')
   async editTeam(
     @Param('id', ParseIntPipe) id: number,
